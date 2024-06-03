@@ -1,31 +1,34 @@
 const ParentPageObject = require('./parentPageObject')
 
+const emailId = '#email'
+const passwordId = '#password'
+
 class RegistrationFailurePageObject extends ParentPageObject {
 
     async enterEmail (input) 
     {
-      await $('#email').addValue(`${input}`)
+      await $(emailId).addValue(`${input}`)
     }
 
     async clickOnEmail () 
     {
-      await this.clickOnElement($('#email'))
+      await this.clickOnElement($(emailId))
     }
 
     async enterPassword (input)
     {
-      await $('#password').addValue(`${input}`)
+      await $(passwordId).addValue(`${input}`)
     }
 
     async clickOnPassword () 
     {
-      await this.clickOnElement($('#password'))
+      await this.clickOnElement($(passwordId))
     }
 
     async clickOnRegistration()
     {
         await this.clickOnElement($('//div[not(contains(@class, "invisible"))]/a//span[contains(., "Register")]'))
-        await this.waitForElementToDisplay($('#email'))
+        await this.waitForElementToDisplay($(emailId))
     }
 
     async verifyError(input)

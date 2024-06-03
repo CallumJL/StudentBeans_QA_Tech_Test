@@ -34,12 +34,12 @@ class ParentPageObject {
 
   async isElementDisplayed (element) {
     await this.waitForElementToDisplay(element)
-    assert(expect(await element.isDisplayed(), 'Element not visible').to.equal(true))
+    assert(expect(await element.isDisplayed(), 'Element not visible, expected true').to.equal(true))
   }
 
   async isElementNotDisplayed (element) {
     await element.waitForDisplayed({ reverse: true })
-    assert(expect(await element.isDisplayed(), 'Element not visible').to.equal(false))
+    assert(expect(await element.isDisplayed(), 'Element is visible, expected false').to.equal(false))
   }
 
   async clickOnElement (element) {
