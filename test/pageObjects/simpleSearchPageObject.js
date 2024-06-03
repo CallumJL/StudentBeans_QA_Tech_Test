@@ -1,13 +1,30 @@
 const ParentPageObject = require('./parentPageObject')
 
 class SimpleSearchPageObject extends ParentPageObject {
-  async goToHomePage () {
-    // the below url call is relative to the base url in the wdio.conf.js so the below call will actually just result in going straight to the base url
-    await browser.url('')
+  async clickOnSearch () {
+    await this.clickOnElement($('//button[contains(@data-testid, "nav-search-desktop")]'))
+    await this.isElementDisplayed($('//input[contains(@data-testid, "search-input")]'))
   }
 
-  async verifyHomePage () {
-    await this.isElementEqualToExpected($('h2=Recommended For You'), 'Recommended For You')
+  async enterSearchValues (input) {
+    await $('//input[contains(@data-testid, "search-input")]').addValue(`${input}`)
+  }
+
+  async waitForResults(index, value) {
+    await $(`//div[@role="presentation"][${index}]/a[contains(@data-testid, "search-result-offer")]/div/p[1][contains(., '${value}')]`).waitForExist({ timeout: 5000 });
+  }
+
+  async getSearchResultText(index) {
+    let searchResult = await $(`//div[@role="presentation"][${index}]/a[contains(@data-testid, "search-result-offer")]/div/p[2]`).getText();
+    return searchResult
+  }
+
+  async clickOnResult(index) {
+    await this.clickOnElement($(`//div[@role="presentation"][${index}]/a[contains(@data-testid, "search-result-offer")]`))
+  }
+
+  async verifyOffer(text) {
+    await this.isElementDisplayed($(`//article[@data-offer-selected="true" and contains(., "${text}")]`))
   }
 }
 
